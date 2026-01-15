@@ -42,6 +42,9 @@ def ChartXmlWriter(chart_type, chart_data):
             XL_CT.RADAR: _RadarChartXmlWriter,
             XL_CT.RADAR_FILLED: _RadarChartXmlWriter,
             XL_CT.RADAR_MARKERS: _RadarChartXmlWriter,
+            XL_CT.THREE_D_BAR_CLUSTERED: _BarChartXmlWriter,
+            XL_CT.THREE_D_BAR_STACKED: _BarChartXmlWriter,
+            XL_CT.THREE_D_BAR_STACKED_100: _BarChartXmlWriter,
             XL_CT.XY_SCATTER: _XyChartXmlWriter,
             XL_CT.XY_SCATTER_LINES: _XyChartXmlWriter,
             XL_CT.XY_SCATTER_LINES_NO_MARKERS: _XyChartXmlWriter,
@@ -460,6 +463,7 @@ class _BarChartXmlWriter(_BaseChartXmlWriter):
             '  <c:date1904 val="0"/>\n'
             "  <c:chart>\n"
             '    <c:autoTitleDeleted val="0"/>\n'
+            "{threeD_xml}"
             "    <c:plotArea>\n"
             "      <c:barChart>\n"
             "{barDir_xml}"
@@ -498,6 +502,7 @@ class _BarChartXmlWriter(_BaseChartXmlWriter):
             "</c:chartSpace>\n"
         ).format(
             **{
+                "threeD_xml": self._threeD_xml,
                 "barDir_xml": self._barDir_xml,
                 "grouping_xml": self._grouping_xml,
                 "ser_xml": self._ser_xml,
@@ -508,9 +513,60 @@ class _BarChartXmlWriter(_BaseChartXmlWriter):
         )
 
     @property
+    def _threeD_xml(self):
+        XL = XL_CHART_TYPE
+        threeD_types = (
+            XL.THREE_D_BAR_CLUSTERED,
+            XL.THREE_D_BAR_STACKED,
+            XL.THREE_D_BAR_STACKED_100,
+            )
+        if self._chart_type in threeD_types:
+                return (
+		    "<c:view3D>\n"
+			'<c:rotX val="15"/>\n'
+			'<c:rotY val="20"/>\n'
+			'<c:depthPercent val="100"/>\n'
+			'<c:rAngAx val="1"/>\n'
+		   "</c:view3D>\n"
+		   "<c:floor>\n"
+			'<c:thickness val="0"/>\n'
+			"<c:spPr>\n"
+				"<a:noFill/>\n"
+				"<a:ln>\n"
+					"<a:noFill/>\n"
+				"</a:ln>\n"
+				"<a:effectLst/>\n"
+				"<a:sp3d/>\n"
+			"</c:spPr>\n"
+		  "</c:floor>\n"
+		  "<c:sideWall>\n"
+		  	'<c:thickness val="0"/>\n'
+			"<c:spPr>\n"
+				"<a:noFill/>\n"
+				"<a:ln>\n"
+					"<a:noFill/>\n"
+				"</a:ln>\n"
+				"<a:effectLst/>\n"
+				"<a:sp3d/>\n"
+			"</c:spPr>\n"
+		"</c:sideWall>\n"
+		"<c:backWall>\n"
+			'<c:thickness val="0"/>\n'
+			"<c:spPr>\n"
+				"<a:noFill/>\n"
+				"<a:ln>\n"
+					"<a:noFill/>\n"
+				"</a:ln>\n"
+				"<a:effectLst/>\n"
+				"<a:sp3d/>\n"
+			"</c:spPr>\n"
+		"</c:backWall>\n")
+        return ""
+
+    @property
     def _barDir_xml(self):
         XL = XL_CHART_TYPE
-        bar_types = (XL.BAR_CLUSTERED, XL.BAR_STACKED, XL.BAR_STACKED_100)
+        bar_types = (XL.BAR_CLUSTERED, XL.BAR_STACKED, XL.BAR_STACKED_100, XL.THREE_D_BAR_CLUSTERED, XL.THREE_D_BAR_STACKED ,XL.THREE_D_BAR_STACKED_100)
         col_types = (XL.COLUMN_CLUSTERED, XL.COLUMN_STACKED, XL.COLUMN_STACKED_100)
         if self._chart_type in bar_types:
             return '        <c:barDir val="bar"/>\n'
@@ -527,6 +583,9 @@ class _BarChartXmlWriter(_BaseChartXmlWriter):
             XL_CHART_TYPE.COLUMN_CLUSTERED: "b",
             XL_CHART_TYPE.COLUMN_STACKED: "b",
             XL_CHART_TYPE.COLUMN_STACKED_100: "b",
+            XL_CHART_TYPE.THREE_D_BAR_CLUSTERED: "b",
+            XL_CHART_TYPE.THREE_D_BAR_STACKED: "b",
+            XL_CHART_TYPE.THREE_D_BAR_STACKED_100: "b",
         }[self._chart_type]
 
     @property
@@ -577,9 +636,9 @@ class _BarChartXmlWriter(_BaseChartXmlWriter):
     @property
     def _grouping_xml(self):
         XL = XL_CHART_TYPE
-        clustered_types = (XL.BAR_CLUSTERED, XL.COLUMN_CLUSTERED)
-        stacked_types = (XL.BAR_STACKED, XL.COLUMN_STACKED)
-        percentStacked_types = (XL.BAR_STACKED_100, XL.COLUMN_STACKED_100)
+        clustered_types = (XL.BAR_CLUSTERED, XL.COLUMN_CLUSTERED, XL.THREE_D_BAR_CLUSTERED)
+        stacked_types = (XL.BAR_STACKED, XL.COLUMN_STACKED, XL.THREE_D_BAR_STACKED)
+        percentStacked_types = (XL.BAR_STACKED_100, XL.COLUMN_STACKED_100, XL.THREE_D_BAR_STACKED_100)
         if self._chart_type in clustered_types:
             return '        <c:grouping val="clustered"/>\n'
         elif self._chart_type in stacked_types:
@@ -634,6 +693,9 @@ class _BarChartXmlWriter(_BaseChartXmlWriter):
             XL_CHART_TYPE.COLUMN_CLUSTERED: "l",
             XL_CHART_TYPE.COLUMN_STACKED: "l",
             XL_CHART_TYPE.COLUMN_STACKED_100: "l",
+            XL_CHART_TYPE.THREE_D_BAR_CLUSTERED: "1",
+            XL_CHART_TYPE.THREE_D_BAR_STACKED: "1",
+            XL_CHART_TYPE.THREE_D_BAR_STACKED_100: "1",
         }[self._chart_type]
 
 
