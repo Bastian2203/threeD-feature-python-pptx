@@ -465,14 +465,7 @@ class _BarChartXmlWriter(_BaseChartXmlWriter):
             '    <c:autoTitleDeleted val="0"/>\n'
             "{threeD_xml}"
             "    <c:plotArea>\n"
-            "      <c:barChart>\n"
-            "{barDir_xml}"
-            "{grouping_xml}"
-            "{ser_xml}"
-            "{overlap_xml}"
-            '        <c:axId val="-2068027336"/>\n'
-            '        <c:axId val="-2113994440"/>\n'
-            "      </c:barChart>\n"
+            "{barChart_xml}"
             "{cat_ax_xml}"
             "      <c:valAx>\n"
             '        <c:axId val="-2113994440"/>\n'
@@ -503,10 +496,7 @@ class _BarChartXmlWriter(_BaseChartXmlWriter):
         ).format(
             **{
                 "threeD_xml": self._threeD_xml,
-                "barDir_xml": self._barDir_xml,
-                "grouping_xml": self._grouping_xml,
-                "ser_xml": self._ser_xml,
-                "overlap_xml": self._overlap_xml,
+                "barChart_xml": self._chart_xml,
                 "cat_ax_xml": self._cat_ax_xml,
                 "val_ax_pos": self._val_ax_pos,
             }
@@ -562,6 +552,44 @@ class _BarChartXmlWriter(_BaseChartXmlWriter):
 			"</c:spPr>\n"
 		"</c:backWall>\n")
         return ""
+
+    @property
+    def _chart_xml(self):
+        XL = XL_CHART_TYPE
+        bar_3d_types = (XL.THREE_D_BAR_CLUSTERED, XL.THREE_D_BAR_STACKED ,XL.THREE_D_BAR_STACKED_100)
+        if self._chart_type in bar_3d_types:
+            return(
+            "      <c:bar3DChart>\n"
+            "{barDir_xml}"
+            "{grouping_xml}"
+            "{ser_xml}"
+            '        <c:axId val="-2068027336"/>\n'
+            '        <c:axId val="-2113994440"/>\n'
+            "      </c:bar3DChart>\n"
+            ).format(
+                **{
+                "barDir_xml": self._barDir_xml,
+                "grouping_xml": self._grouping_xml,
+                "ser_xml": self._ser_xml,
+            }
+        )
+        return(            
+            "      <c:barChart>\n"
+            "{barDir_xml}"
+            "{grouping_xml}"
+            "{ser_xml}"
+            "{overlap_xml}"
+            '        <c:axId val="-2068027336"/>\n'
+            '        <c:axId val="-2113994440"/>\n'
+            "      </c:barChart>\n"
+        ).format(
+                **{
+                "barDir_xml": self._barDir_xml,
+                "grouping_xml": self._grouping_xml,
+                "ser_xml": self._ser_xml,
+                "overlap_xml": self._overlap_xml,
+            }
+        )
 
     @property
     def _barDir_xml(self):
@@ -655,6 +683,8 @@ class _BarChartXmlWriter(_BaseChartXmlWriter):
             XL.BAR_STACKED_100,
             XL.COLUMN_STACKED,
             XL.COLUMN_STACKED_100,
+            XL.THREE_D_BAR_STACKED,
+            XL.THREE_D_BAR_STACKED_100,
         )
         if self._chart_type in percentStacked_types:
             return '        <c:overlap val="100"/>\n'
