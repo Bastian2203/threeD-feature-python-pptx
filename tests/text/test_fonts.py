@@ -5,6 +5,7 @@
 from __future__ import annotations
 
 import io
+import os
 from struct import calcsize
 
 import pytest
@@ -53,8 +54,8 @@ class DescribeFontFiles(object):
         assert font_dirs == expected_values
 
     def it_knows_os_x_font_dirs_to_help_find(self, osx_dirs_fixture):
-        expected_dirs = osx_dirs_fixture
-        font_dirs = FontFiles._os_x_font_directories()
+        font_dirs = [os.path.normpath(p) for p in FontFiles._os_x_font_directories()]
+        expected_dirs = [os.path.normpath(p) for p in osx_dirs_fixture]
         assert font_dirs == expected_dirs
 
     def it_knows_windows_font_dirs_to_help_find(self, win_dirs_fixture):

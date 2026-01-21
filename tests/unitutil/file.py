@@ -2,6 +2,7 @@
 
 import os
 import sys
+import re
 
 _thisdir = os.path.split(__file__)[0]
 test_file_dir = os.path.abspath(os.path.join(_thisdir, "..", "test_files"))
@@ -27,6 +28,7 @@ def snippet_seq(name: str, offset: int = 0, count: int = sys.maxsize):
     path = os.path.join(test_file_dir, "snippets", "%s.txt" % name)
     with open(path, "rb") as f:
         text = f.read().decode("utf-8")
+    text = text.replace("\r\n", "\n").replace("\r", "\n")
     snippets = text.split("\n\n")
     start, end = offset, offset + count
     return tuple(snippets[start:end])
