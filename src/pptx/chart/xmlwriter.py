@@ -18,6 +18,11 @@ def ChartXmlWriter(chart_type, chart_data):
     XL_CT = XL_CHART_TYPE
     try:
         BuilderCls = {
+            XL_CT.THREE_D_BAR_CLUSTERED: _BarChartXmlWriter,
+            XL_CT.THREE_D_BAR_STACKED: _BarChartXmlWriter,
+            XL_CT.THREE_D_BAR_STACKED_100: _BarChartXmlWriter,
+            XL_CT.THREE_D_PIE: _PieChartXmlWriter,
+            XL_CT.THREE_D_PIE_EXPLODED: _PieChartXmlWriter,
             XL_CT.AREA: _AreaChartXmlWriter,
             XL_CT.AREA_STACKED: _AreaChartXmlWriter,
             XL_CT.AREA_STACKED_100: _AreaChartXmlWriter,
@@ -42,9 +47,6 @@ def ChartXmlWriter(chart_type, chart_data):
             XL_CT.RADAR: _RadarChartXmlWriter,
             XL_CT.RADAR_FILLED: _RadarChartXmlWriter,
             XL_CT.RADAR_MARKERS: _RadarChartXmlWriter,
-            XL_CT.THREE_D_BAR_CLUSTERED: _BarChartXmlWriter,
-            XL_CT.THREE_D_BAR_STACKED: _BarChartXmlWriter,
-            XL_CT.THREE_D_BAR_STACKED_100: _BarChartXmlWriter,
             XL_CT.XY_SCATTER: _XyChartXmlWriter,
             XL_CT.XY_SCATTER_LINES: _XyChartXmlWriter,
             XL_CT.XY_SCATTER_LINES_NO_MARKERS: _XyChartXmlWriter,
@@ -1002,11 +1004,9 @@ class _PieChartXmlWriter(_BaseChartXmlWriter):
             'iceDocument/2006/relationships">\n'
             "  <c:chart>\n"
             '    <c:autoTitleDeleted val="0"/>\n'
+            "{threeD_xml}"
             "    <c:plotArea>\n"
-            "      <c:pieChart>\n"
-            '        <c:varyColors val="1"/>\n'
-            "{ser_xml}"
-            "      </c:pieChart>\n"
+            "{pie_xml}"
             "    </c:plotArea>\n"
             '    <c:dispBlanksAs val="gap"/>\n'
             "  </c:chart>\n"
@@ -1021,14 +1021,55 @@ class _PieChartXmlWriter(_BaseChartXmlWriter):
             "    </a:p>\n"
             "  </c:txPr>\n"
             "</c:chartSpace>\n"
-        ).format(**{"ser_xml": self._ser_xml})
+        ).format(**{"pie_xml": self._pie_chart_xml,
+                    "threeD_xml": self._threeD_xml})
 
     @property
     def _explosion_xml(self):
-        if self._chart_type == XL_CHART_TYPE.PIE_EXPLODED:
-            return '          <c:explosion val="25"/>\n'
+        XL = XL_CHART_TYPE
+        exploded_pies = (XL.PIE_EXPLODED, XL.THREE_D_PIE_EXPLODED)
+        if self._chart_type in exploded_pies:
+            return '          <c:explosion val="5"/>\n'
         return ""
 
+    @property
+    def _pie_chart_xml(self):
+        XL = XL_CHART_TYPE
+        three_D_pies = (XL.THREE_D_PIE, XL.THREE_D_PIE_EXPLODED)
+        if self._chart_type in three_D_pies:
+            return(
+            "      <c:pie3DChart>\n"
+            '        <c:varyColors val="1"/>\n'
+            "{ser_xml}"
+            "      </c:pie3DChart>\n"
+        ).format(**{"ser_xml": self._ser_xml,})
+        
+        return(
+            "      <c:pieChart>\n"
+            '      <c:firstSliceAng val="150"/>'
+            '        <c:varyColors val="1"/>\n'
+            "{ser_xml}"
+            "      </c:pieChart>\n"
+        ).format(**{"ser_xml": self._ser_xml,})
+    
+    @property
+    def _threeD_xml(self):
+        XL = XL_CHART_TYPE
+        threeD_types = (
+            XL.THREE_D_PIE,
+            XL.THREE_D_PIE_EXPLODED,
+            )
+        if self._chart_type in threeD_types:
+                return (
+		    "<c:view3D>\n"
+			'<c:rotX val="30"/>\n'
+			'<c:rotY val="150"/>\n'
+			'<c:depthPercent val="100"/>\n'
+			'<c:rAngAx val="0"/>\n'
+		   "</c:view3D>\n"
+                )
+        return ""
+    
     @property
     def _ser_xml(self):
         xml_writer = _CategorySeriesXmlWriter(self._chart_data[0])
