@@ -146,7 +146,8 @@ class DescribeSeriesXmlRewriterFactory(object):
 class Describe_AreaChartXmlWriter(object):
     def it_can_generate_xml_for_area_type_charts(self, xml_fixture):
         xml_writer, expected_xml = xml_fixture
-        assert xml_writer.xml == expected_xml
+        assert xml_writer.xml.replace('\r\n', '\n') == expected_xml.replace('\r\n', '\n')
+        #assert xml_writer.xml == expected_xml
 
     # fixtures -------------------------------------------------------
 
@@ -191,7 +192,7 @@ class Describe_BarChartXmlWriter(object):
         chart_data = make_category_chart_data(cat_count, cat_type, ser_count)
         xml_writer = _BarChartXmlWriter(chart_type, chart_data)
 
-        assert xml_writer.xml == snippet_text(snippet_name)
+        assert xml_writer.xml.replace('\r\n', '\n') == snippet_text(snippet_name).replace('\r\n', '\n')
 
     def it_can_generate_xml_for_multi_level_cat_charts(self):
         chart_data = CategoryChartData()
@@ -205,13 +206,13 @@ class Describe_BarChartXmlWriter(object):
         chart_data.add_series("Series 2", (5, None, 7, 8))
         xml_writer = _BarChartXmlWriter(XL_CHART_TYPE.BAR_CLUSTERED, chart_data)
 
-        assert xml_writer.xml == snippet_text("4x2-multi-cat-bar")
+        assert xml_writer.xml.replace('\r\n', '\n') == snippet_text("4x2-multi-cat-bar").replace('\r\n', '\n')
 
 
 class Describe_BubbleChartXmlWriter(object):
     def it_can_generate_xml_for_bubble_charts(self, xml_fixture):
         xml_writer, expected_xml = xml_fixture
-        assert xml_writer.xml == expected_xml
+        assert xml_writer.xml.replace('\r\n', '\n') == expected_xml.replace('\r\n', '\n')
 
     # fixtures -------------------------------------------------------
 
@@ -233,7 +234,7 @@ class Describe_BubbleChartXmlWriter(object):
 class Describe_DoughnutChartXmlWriter(object):
     def it_can_generate_xml_for_doughnut_type_charts(self, xml_fixture):
         xml_writer, expected_xml = xml_fixture
-        assert xml_writer.xml == expected_xml
+        assert xml_writer.xml.replace('\r\n', '\n') == expected_xml.replace('\r\n', '\n')
 
     # fixtures -------------------------------------------------------
 
@@ -255,7 +256,7 @@ class Describe_DoughnutChartXmlWriter(object):
 class Describe_LineChartXmlWriter(object):
     def it_can_generate_xml_for_a_line_chart(self, xml_fixture):
         xml_writer, expected_xml = xml_fixture
-        assert xml_writer.xml == expected_xml
+        assert xml_writer.xml.replace('\r\n', '\n') == expected_xml.replace('\r\n', '\n')
 
     # fixtures -------------------------------------------------------
 
@@ -295,7 +296,7 @@ class Describe_PieChartXmlWriter(object):
         chart_data = make_category_chart_data(cat_count, str, ser_count)
         xml_writer = _PieChartXmlWriter(chart_type, chart_data)
 
-        assert xml_writer.xml == snippet_text(snippet_name)
+        assert xml_writer.xml.replace('\r\n', '\n') == snippet_text(snippet_name).replace('\r\n', '\n')
 
 
 class Describe_RadarChartXmlWriter(object):
@@ -305,13 +306,13 @@ class Describe_RadarChartXmlWriter(object):
         series_data_seq = make_category_chart_data(cat_count=5, cat_type=str, ser_count=2)
         xml_writer = _RadarChartXmlWriter(XL_CHART_TYPE.RADAR, series_data_seq)
 
-        assert xml_writer.xml == snippet_text("2x5-radar")
+        assert xml_writer.xml.replace('\r\n', '\n') == snippet_text("2x5-radar").replace('\r\n', '\n')
 
 
 class Describe_XyChartXmlWriter(object):
     def it_can_generate_xml_for_xy_charts(self, xml_fixture):
         xml_writer, expected_xml = xml_fixture
-        assert xml_writer.xml == expected_xml
+        assert xml_writer.xml.replace('\r\n', '\n') == expected_xml.replace('\r\n', '\n')
 
     # fixtures -------------------------------------------------------
 

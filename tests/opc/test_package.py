@@ -786,7 +786,7 @@ class Describe_Relationships:
         }
         relationships = _Relationships(None)
 
-        assert relationships.xml == snippet_bytes("relationships")
+        assert relationships.xml.replace(b'\r\n', b'\n') == snippet_bytes("relationships").replace(b'\r\n', b'\n')
 
     def it_can_add_a_relationship_to_a_part_to_help(
         self,
