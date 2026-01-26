@@ -28,6 +28,7 @@ def ChartXmlWriter(chart_type, chart_data):
             XL_CT.THREE_D_COLUMN_CLUSTERED: _BarChartXmlWriter,
             XL_CT.THREE_D_COLUMN_STACKED: _BarChartXmlWriter,
             XL_CT.THREE_D_COLUMN_STACKED_100: _BarChartXmlWriter,
+            XL_CT.THREE_D_LINE: _LineChartXmlWriter,
             XL_CT.THREE_D_PIE: _PieChartXmlWriter,
             XL_CT.THREE_D_PIE_EXPLODED: _PieChartXmlWriter,
             XL_CT.AREA: _AreaChartXmlWriter,
@@ -966,16 +967,9 @@ class _LineChartXmlWriter(_BaseChartXmlWriter):
             '  <c:date1904 val="0"/>\n'
             "  <c:chart>\n"
             '    <c:autoTitleDeleted val="0"/>\n'
+            "{threeD_xml}"
             "    <c:plotArea>\n"
-            "      <c:lineChart>\n"
-            "{grouping_xml}"
-            '        <c:varyColors val="0"/>\n'
-            "{ser_xml}"
-            '        <c:marker val="1"/>\n'
-            '        <c:smooth val="0"/>\n'
-            '        <c:axId val="2118791784"/>\n'
-            '        <c:axId val="2140495176"/>\n'
-            "      </c:lineChart>\n"
+            "{chart_xml}"
             "{cat_ax_xml}"
             "      <c:valAx>\n"
             '        <c:axId val="2140495176"/>\n'
@@ -1012,12 +1006,80 @@ class _LineChartXmlWriter(_BaseChartXmlWriter):
             "</c:chartSpace>\n"
         ).format(
             **{
-                "grouping_xml": self._grouping_xml,
-                "ser_xml": self._ser_xml,
+                "threeD_xml": self._threeD_xml,
+                "chart_xml": self._chart_xml,
                 "cat_ax_xml": self._cat_ax_xml,
             }
         )
+    @property
+    def _threeD_xml(self):
+        if self._chart_type == XL_CHART_TYPE.THREE_D_LINE:
+                return (
+		    "<c:view3D>\n"
+			'<c:rotX val="15"/>\n'
+			'<c:rotY val="20"/>\n'
+			'<c:depthPercent val="100"/>\n'
+			'<c:rAngAx val="1"/>\n'
+		   "</c:view3D>\n"
+		   "<c:floor>\n"
+			'<c:thickness val="0"/>\n'
+			"<c:spPr>\n"
+				"<a:noFill/>\n"
+				"<a:ln>\n"
+					"<a:noFill/>\n"
+				"</a:ln>\n"
+				"<a:effectLst/>\n"
+				"<a:sp3d/>\n"
+			"</c:spPr>\n"
+		  "</c:floor>\n"
+		  "<c:sideWall>\n"
+		  	'<c:thickness val="0"/>\n'
+			"<c:spPr>\n"
+				"<a:noFill/>\n"
+				"<a:ln>\n"
+					"<a:noFill/>\n"
+				"</a:ln>\n"
+				"<a:effectLst/>\n"
+				"<a:sp3d/>\n"
+			"</c:spPr>\n"
+		"</c:sideWall>\n"
+		"<c:backWall>\n"
+			'<c:thickness val="0"/>\n'
+			"<c:spPr>\n"
+				"<a:noFill/>\n"
+				"<a:ln>\n"
+					"<a:noFill/>\n"
+				"</a:ln>\n"
+				"<a:effectLst/>\n"
+				"<a:sp3d/>\n"
+			"</c:spPr>\n"
+		"</c:backWall>\n")
+        return ""
 
+    @property
+    def _chart_xml(self):
+        XL = XL_CHART_TYPE
+        val = {
+            XL.THREE_D_LINE: "line3DChart",
+            XL.LINE: "lineChart",
+        }[self._chart_type]
+        return(
+            "      <c:%s>\n" % val +
+            "{grouping_xml}"
+            '        <c:varyColors val="0"/>\n'
+            "{ser_xml}"
+            '        <c:marker val="1"/>\n'
+            '        <c:smooth val="0"/>\n'
+            '        <c:axId val="2118791784"/>\n'
+            '        <c:axId val="2140495176"/>\n'
+            "      </c:%s>\n" % val
+            ).format(
+                **{
+                "grouping_xml": self._grouping_xml,
+                "ser_xml": self._ser_xml,
+            }
+        )
+    
     @property
     def _cat_ax_xml(self):
         categories = self._chart_data.categories
@@ -1066,7 +1128,7 @@ class _LineChartXmlWriter(_BaseChartXmlWriter):
     @property
     def _grouping_xml(self):
         XL = XL_CHART_TYPE
-        standard_types = (XL.LINE, XL.LINE_MARKERS)
+        standard_types = (XL.THREE_D_LINE,XL.LINE, XL.LINE_MARKERS)
         stacked_types = (XL.LINE_STACKED, XL.LINE_MARKERS_STACKED)
         percentStacked_types = (XL.LINE_STACKED_100, XL.LINE_MARKERS_STACKED_100)
         if self._chart_type in standard_types:
@@ -1080,7 +1142,7 @@ class _LineChartXmlWriter(_BaseChartXmlWriter):
     @property
     def _marker_xml(self):
         XL = XL_CHART_TYPE
-        no_marker_types = (XL.LINE, XL.LINE_STACKED, XL.LINE_STACKED_100)
+        no_marker_types = (XL.THREE_D_LINE,XL.LINE, XL.LINE_STACKED, XL.LINE_STACKED_100)
         if self._chart_type in no_marker_types:
             return (
                 "          <c:marker>\n"

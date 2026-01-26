@@ -93,7 +93,7 @@ class DescribeCategories(object):
         xChart_xml = snippet_seq("cat-labels")[snippet_idx]
         categories = Categories(parse_xml(xChart_xml))
         return categories, expected_values
-    
+
     @pytest.fixture(
         params=[
             ("c:barChart/c:ser/c:cat/(c:ptCount{val=2})", 0, None),
