@@ -5,6 +5,7 @@
 from __future__ import annotations
 
 import pytest
+from rich import _console
 
 from pptx.chart.axis import CategoryAxis, DateAxis, ValueAxis
 from pptx.chart.chart import Chart, ChartTitle, Legend, _Plots
@@ -34,9 +35,8 @@ class DescribeChart(object):
         chartSpace, expected_xml = font_fixture
         Font_.return_value = font_
         chart = Chart(chartSpace, None)
-
         font = chart.font
-
+        
         assert chartSpace.xml == expected_xml
         Font_.assert_called_once_with(chartSpace.xpath("./c:txPr/a:p/a:pPr/a:defRPr")[0])
         assert font is font_

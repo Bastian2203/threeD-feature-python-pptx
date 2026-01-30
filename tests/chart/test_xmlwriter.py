@@ -56,6 +56,19 @@ class DescribeChartXmlWriter(object):
 
     @pytest.fixture(
         params=[
+            ("THREE_D_AREA", _AreaChartXmlWriter),
+            ("THREE_D_AREA_STACKED", _AreaChartXmlWriter),
+            ("THREE_D_AREA_STACKED_100", _AreaChartXmlWriter),
+            ("THREE_D_BAR_CLUSTERED", _BarChartXmlWriter),
+            ("THREE_D_BAR_STACKED", _BarChartXmlWriter),
+            ("THREE_D_BAR_STACKED_100", _BarChartXmlWriter),
+            ("THREE_D_COLUMN", _BarChartXmlWriter),
+            ("THREE_D_COLUMN_CLUSTERED", _BarChartXmlWriter),
+            ("THREE_D_COLUMN_STACKED", _BarChartXmlWriter),
+            ("THREE_D_COLUMN_STACKED_100", _BarChartXmlWriter),
+            ("THREE_D_LINE", _LineChartXmlWriter),
+            ("THREE_D_PIE", _PieChartXmlWriter),
+            ("THREE_D_PIE_EXPLODED", _PieChartXmlWriter),
             ("AREA", _AreaChartXmlWriter),
             ("AREA_STACKED", _AreaChartXmlWriter),
             ("AREA_STACKED_100", _AreaChartXmlWriter),
@@ -270,6 +283,7 @@ class Describe_LineChartXmlWriter(object):
             ("LINE_MARKERS_STACKED_100", 2, 2, str, "2x2-line-markers-stacked-100"),
             ("LINE_STACKED", 2, 2, str, "2x2-line-stacked"),
             ("LINE_STACKED_100", 2, 2, str, "2x2-line-stacked-100"),
+            ("THREE_D_LINE", 2, 2, str, "2x2-line-3d"),
         ]
     )
     def xml_fixture(self, request):
