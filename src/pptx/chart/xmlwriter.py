@@ -1015,54 +1015,57 @@ class _LineChartXmlWriter(_BaseChartXmlWriter):
     def _threeD_xml(self):
         if self._chart_type == XL_CHART_TYPE.THREE_D_LINE:
                 return (
-		    "<c:view3D>\n"
-			'<c:rotX val="15"/>\n'
-			'<c:rotY val="20"/>\n'
-			'<c:depthPercent val="100"/>\n'
-			'<c:rAngAx val="1"/>\n'
-		   "</c:view3D>\n"
-		   "<c:floor>\n"
-			'<c:thickness val="0"/>\n'
-			"<c:spPr>\n"
-				"<a:noFill/>\n"
-				"<a:ln>\n"
-					"<a:noFill/>\n"
-				"</a:ln>\n"
-				"<a:effectLst/>\n"
-				"<a:sp3d/>\n"
-			"</c:spPr>\n"
-		  "</c:floor>\n"
-		  "<c:sideWall>\n"
-		  	'<c:thickness val="0"/>\n'
-			"<c:spPr>\n"
-				"<a:noFill/>\n"
-				"<a:ln>\n"
-					"<a:noFill/>\n"
-				"</a:ln>\n"
-				"<a:effectLst/>\n"
-				"<a:sp3d/>\n"
-			"</c:spPr>\n"
-		"</c:sideWall>\n"
-		"<c:backWall>\n"
-			'<c:thickness val="0"/>\n'
-			"<c:spPr>\n"
-				"<a:noFill/>\n"
-				"<a:ln>\n"
-					"<a:noFill/>\n"
-				"</a:ln>\n"
-				"<a:effectLst/>\n"
-				"<a:sp3d/>\n"
-			"</c:spPr>\n"
-		"</c:backWall>\n")
+		    "    <c:view3D>\n"
+			'        <c:rotX val="15"/>\n'
+			'        <c:rotY val="20"/>\n'
+			'        <c:depthPercent val="100"/>\n'
+			'        <c:rAngAx val="1"/>\n'
+		    "    </c:view3D>\n"
+		    "    <c:floor>\n"
+			'        <c:thickness val="0"/>\n'
+			"        <c:spPr>\n"
+			"            <a:noFill/>\n"
+			"            <a:ln>\n"
+			"                <a:noFill/>\n"
+			"            </a:ln>\n"
+			"            <a:effectLst/>\n"
+			"            <a:sp3d/>\n"
+			"        </c:spPr>\n"
+		    "    </c:floor>\n"
+		    "    <c:sideWall>\n"
+		  	'        <c:thickness val="0"/>\n'
+			"        <c:spPr>\n"
+			"            <a:noFill/>\n"
+		    "            <a:ln>\n"
+			"                <a:noFill/>\n"
+			"            </a:ln>\n"
+			"            <a:effectLst/>\n"
+			"            <a:sp3d/>\n"
+			"        </c:spPr>\n"
+		    "    </c:sideWall>\n"
+		    "    <c:backWall>\n"
+			'        <c:thickness val="0"/>\n'
+			"        <c:spPr>\n"
+			"            <a:noFill/>\n"
+			"            <a:ln>\n"
+			"                <a:noFill/>\n"
+			"            </a:ln>\n"
+			"            <a:effectLst/>\n"
+			"            <a:sp3d/>\n"
+			"        </c:spPr>\n"
+		    "    </c:backWall>\n")
         return ""
 
     @property
     def _chart_xml(self):
         XL = XL_CHART_TYPE
-        val = {
-            XL.THREE_D_LINE: "line3DChart",
-            XL.LINE: "lineChart",
-        }[self._chart_type]
+        line_2d_types = (XL.LINE, XL.LINE_MARKERS, XL.LINE_MARKERS_STACKED, XL.LINE_MARKERS_STACKED_100, XL.LINE_STACKED, XL.LINE_STACKED_100,)
+        if self._chart_type == XL.THREE_D_LINE:
+            val = "line3DChart"
+        elif self._chart_type in line_2d_types:
+            val = "lineChart"
+        else:
+            raise NotImplementedError("no _chart_xml() for chart type %s" % self._chart_type)
         return(
             "      <c:%s>\n" % val +
             "{grouping_xml}"
@@ -1219,7 +1222,7 @@ class _PieChartXmlWriter(_BaseChartXmlWriter):
         XL = XL_CHART_TYPE
         exploded_pies = (XL.PIE_EXPLODED, XL.THREE_D_PIE_EXPLODED)
         if self._chart_type in exploded_pies:
-            return '          <c:explosion val="5"/>\n'
+            return '          <c:explosion val="25"/>\n'
         return ""
 
     @property
@@ -1236,7 +1239,6 @@ class _PieChartXmlWriter(_BaseChartXmlWriter):
         
         return(
             "      <c:pieChart>\n"
-            '      <c:firstSliceAng val="150"/>'
             '        <c:varyColors val="1"/>\n'
             "{ser_xml}"
             "      </c:pieChart>\n"
@@ -1669,7 +1671,7 @@ class _BubbleChartXmlWriter(_XyChartXmlWriter):
                 "{yVal_xml}"
                 "{bubbleSize_xml}"
                 '          <c:bubble3D val="{bubble3D_val}"/>\n'
-                "        </c:ser>\n"    
+                "        </c:ser>\n"
             ).format(
                 **{
                     "ser_idx": series.index,
