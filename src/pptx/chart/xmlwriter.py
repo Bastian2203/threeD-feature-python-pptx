@@ -374,45 +374,45 @@ class _AreaChartXmlWriter(_BaseChartXmlWriter):
             )
         if self._chart_type in threeD_types:
                 return (
-		    "<c:view3D>\n"
-			'<c:rotX val="15"/>\n'
-			'<c:rotY val="20"/>\n'
-			'<c:depthPercent val="100"/>\n'
-			'<c:rAngAx val="1"/>\n'
-		   "</c:view3D>\n"
-		   "<c:floor>\n"
-			'<c:thickness val="0"/>\n'
-			"<c:spPr>\n"
-				"<a:noFill/>\n"
-				"<a:ln>\n"
-					"<a:noFill/>\n"
-				"</a:ln>\n"
-				"<a:effectLst/>\n"
-				"<a:sp3d/>\n"
-			"</c:spPr>\n"
-		  "</c:floor>\n"
-		  "<c:sideWall>\n"
-		  	'<c:thickness val="0"/>\n'
-			"<c:spPr>\n"
-				"<a:noFill/>\n"
-				"<a:ln>\n"
-					"<a:noFill/>\n"
-				"</a:ln>\n"
-				"<a:effectLst/>\n"
-				"<a:sp3d/>\n"
-			"</c:spPr>\n"
-		"</c:sideWall>\n"
-		"<c:backWall>\n"
-			'<c:thickness val="0"/>\n'
-			"<c:spPr>\n"
-				"<a:noFill/>\n"
-				"<a:ln>\n"
-					"<a:noFill/>\n"
-				"</a:ln>\n"
-				"<a:effectLst/>\n"
-				"<a:sp3d/>\n"
-			"</c:spPr>\n"
-		"</c:backWall>\n")
+		    "    <c:view3D>\n"
+			'        <c:rotX val="15"/>\n'
+			'        <c:rotY val="20"/>\n'
+			'        <c:depthPercent val="100"/>\n'
+			'        <c:rAngAx val="1"/>\n'
+		    "    </c:view3D>\n"
+		    "    <c:floor>\n"
+			'        <c:thickness val="0"/>\n'
+			"        <c:spPr>\n"
+			"            <a:noFill/>\n"
+			"            <a:ln>\n"
+			"                <a:noFill/>\n"
+			"            </a:ln>\n"
+			"            <a:effectLst/>\n"
+			"            <a:sp3d/>\n"
+			"        </c:spPr>\n"
+		    "    </c:floor>\n"
+		    "    <c:sideWall>\n"
+		  	'        <c:thickness val="0"/>\n'
+			"        <c:spPr>\n"
+			"            <a:noFill/>\n"
+		    "            <a:ln>\n"
+			"                <a:noFill/>\n"
+			"            </a:ln>\n"
+			"            <a:effectLst/>\n"
+			"            <a:sp3d/>\n"
+			"        </c:spPr>\n"
+		    "    </c:sideWall>\n"
+		    "    <c:backWall>\n"
+			'        <c:thickness val="0"/>\n'
+			"        <c:spPr>\n"
+			"            <a:noFill/>\n"
+			"            <a:ln>\n"
+			"                <a:noFill/>\n"
+			"            </a:ln>\n"
+			"            <a:effectLst/>\n"
+			"            <a:sp3d/>\n"
+			"        </c:spPr>\n"
+		    "    </c:backWall>\n")
         return ""
 
     @property
