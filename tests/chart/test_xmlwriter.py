@@ -171,6 +171,11 @@ class Describe_AreaChartXmlWriter(object):
             ("AREA", 2, 2, float, "2x2-area-float"),
             ("AREA_STACKED", 2, 2, str, "2x2-area-stacked"),
             ("AREA_STACKED_100", 2, 2, str, "2x2-area-stacked-100"),
+            ("THREE_D_AREA", 2, 2, str, "2x2-area-3d"),
+            ("THREE_D_AREA", 2, 2, date, "2x2-area-3d-date"),
+            ("THREE_D_AREA", 2, 2, float, "2x2-area-3d-float"),
+            ("THREE_D_AREA_STACKED", 2, 2, str, "2x2-area-stacked-3d"),
+            ("THREE_D_AREA_STACKED_100", 2, 2, str, "2x2-area-stacked-100-3d"),
         ]
     )
     def xml_fixture(self, request):
@@ -284,6 +289,8 @@ class Describe_LineChartXmlWriter(object):
             ("LINE_STACKED", 2, 2, str, "2x2-line-stacked"),
             ("LINE_STACKED_100", 2, 2, str, "2x2-line-stacked-100"),
             ("THREE_D_LINE", 2, 2, str, "2x2-line-3d"),
+            ("THREE_D_LINE", 2, 2, date, "2x2-line-3d-date"),
+            ("THREE_D_LINE", 2, 2, float, "2x2-line-3d-float")
         ]
     )
     def xml_fixture(self, request):
