@@ -201,6 +201,15 @@ class Describe_BarChartXmlWriter(object):
             ("COLUMN_CLUSTERED", 2, 2, str, "2x2-column-clustered"),
             ("COLUMN_STACKED", 2, 2, str, "2x2-column-stacked"),
             ("COLUMN_STACKED_100", 2, 2, str, "2x2-column-stacked-100"),
+            #("THREE_D_BAR_CLUSTERED", 2, 2, str, "2x2-bar-clustered-3d"),
+            #("THREE_D_BAR_CLUSTERED", 2, 2, date, "2x2-bar-clustered-3d-date"),
+            #("THREE_D_BAR_CLUSTERED", 2, 2, float, "2x2-bar-clustered-3d-float"),
+            #("THREE_D_BAR_STACKED", 2, 2, str, "2x2-bar-stacked-3d"),
+            #("THREE_D_BAR_STACKED_100", 2, 2, str, "2x2-bar-stacked-100-3d"),
+            ("THREE_D_COLUMN", 2, 2, str, "2x2-column-3d"),
+            ("THREE_D_COLUMN_CLUSTERED", 2, 2, str, "2x2-column-clustered-3d"),
+            ("THREE_D_COLUMN_STACKED", 2, 2, str, "2x2-column-stacked-3d"),
+            ("THREE_D_COLUMN_STACKED_100", 2, 2, str, "2x2-column-stacked-100-3d")
         ),
     )
     def it_can_generate_xml_for_bar_type_charts(
@@ -310,6 +319,8 @@ class Describe_PieChartXmlWriter(object):
         (
             ("PIE", 3, 1, "3x1-pie"),
             ("PIE_EXPLODED", 3, 1, "3x1-pie-exploded"),
+            ("THREE_D_PIE", 3, 1, "3x1-pie-3d"),
+            ("THREE_D_PIE_EXPLODED", 3, 1, "3x1-pie-exploded-3d"),
         ),
     )
     def it_can_generate_xml_for_a_pie_chart(self, enum_member, cat_count, ser_count, snippet_name):
