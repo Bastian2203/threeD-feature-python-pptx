@@ -622,46 +622,46 @@ class _BarChartXmlWriter(_BaseChartXmlWriter):
             XL.THREE_D_COLUMN_STACKED_100
             )
         if self._chart_type in threeD_types:
-                return (
-		    "<c:view3D>\n"
-			'<c:rotX val="15"/>\n'
-			'<c:rotY val="20"/>\n'
-			'<c:depthPercent val="100"/>\n'
-			'<c:rAngAx val="1"/>\n'
-		   "</c:view3D>\n"
-		   "<c:floor>\n"
-			'<c:thickness val="0"/>\n'
-			"<c:spPr>\n"
-				"<a:noFill/>\n"
-				"<a:ln>\n"
-					"<a:noFill/>\n"
-				"</a:ln>\n"
-				"<a:effectLst/>\n"
-				"<a:sp3d/>\n"
-			"</c:spPr>\n"
-		  "</c:floor>\n"
-		  "<c:sideWall>\n"
-		  	'<c:thickness val="0"/>\n'
-			"<c:spPr>\n"
-				"<a:noFill/>\n"
-				"<a:ln>\n"
-					"<a:noFill/>\n"
-				"</a:ln>\n"
-				"<a:effectLst/>\n"
-				"<a:sp3d/>\n"
-			"</c:spPr>\n"
-		"</c:sideWall>\n"
-		"<c:backWall>\n"
-			'<c:thickness val="0"/>\n'
-			"<c:spPr>\n"
-				"<a:noFill/>\n"
-				"<a:ln>\n"
-					"<a:noFill/>\n"
-				"</a:ln>\n"
-				"<a:effectLst/>\n"
-				"<a:sp3d/>\n"
-			"</c:spPr>\n"
-		"</c:backWall>\n")
+            return (
+		    "    <c:view3D>\n"
+			'        <c:rotX val="15"/>\n'
+			'        <c:rotY val="20"/>\n'
+			'        <c:depthPercent val="100"/>\n'
+			'        <c:rAngAx val="1"/>\n'
+		    "    </c:view3D>\n"
+		    "    <c:floor>\n"
+			'        <c:thickness val="0"/>\n'
+			"        <c:spPr>\n"
+			"            <a:noFill/>\n"
+			"            <a:ln>\n"
+			"                <a:noFill/>\n"
+			"            </a:ln>\n"
+			"            <a:effectLst/>\n"
+			"            <a:sp3d/>\n"
+			"        </c:spPr>\n"
+		    "    </c:floor>\n"
+		    "    <c:sideWall>\n"
+		  	'        <c:thickness val="0"/>\n'
+			"        <c:spPr>\n"
+			"            <a:noFill/>\n"
+		    "            <a:ln>\n"
+			"                <a:noFill/>\n"
+			"            </a:ln>\n"
+			"            <a:effectLst/>\n"
+			"            <a:sp3d/>\n"
+			"        </c:spPr>\n"
+		    "    </c:sideWall>\n"
+		    "    <c:backWall>\n"
+			'        <c:thickness val="0"/>\n'
+			"        <c:spPr>\n"
+			"            <a:noFill/>\n"
+			"            <a:ln>\n"
+			"                <a:noFill/>\n"
+			"            </a:ln>\n"
+			"            <a:effectLst/>\n"
+			"            <a:sp3d/>\n"
+			"        </c:spPr>\n"
+		    "    </c:backWall>\n")
         return ""
 
     @property
@@ -682,6 +682,7 @@ class _BarChartXmlWriter(_BaseChartXmlWriter):
             "{barDir_xml}"
             "{grouping_xml}"
             "{ser_xml}"
+            "{overlap_xml}"
             '        <c:axId val="-2068027336"/>\n'
             '        <c:axId val="-2113994440"/>\n'
             "      </c:bar3DChart>\n"
@@ -690,6 +691,7 @@ class _BarChartXmlWriter(_BaseChartXmlWriter):
                 "barDir_xml": self._barDir_xml,
                 "grouping_xml": self._grouping_xml,
                 "ser_xml": self._ser_xml,
+                "overlap_xml": self._overlap_xml,
             }
         )
         return(            
@@ -1253,12 +1255,12 @@ class _PieChartXmlWriter(_BaseChartXmlWriter):
             )
         if self._chart_type in threeD_types:
                 return (
-		    "<c:view3D>\n"
-			'<c:rotX val="30"/>\n'
-			'<c:rotY val="150"/>\n'
-			'<c:depthPercent val="100"/>\n'
-			'<c:rAngAx val="0"/>\n'
-		   "</c:view3D>\n"
+            "    <c:view3D>\n"
+			'      <c:rotX val="15"/>\n'
+			'      <c:rotY val="20"/>\n'
+			'      <c:depthPercent val="100"/>\n'
+			'      <c:rAngAx val="1"/>\n'
+		    "    </c:view3D>\n"
                 )
         return ""
     
